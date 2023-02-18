@@ -1,12 +1,13 @@
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { attemptLogin } from "../store/thunks/auth";
 import { Error } from "../components";
-import { Credentials } from "src/store/actions/user";
-import { useAppDispatch } from "src/store/hooks";
-import { useServerError } from "src/hooks/useServerError";
+import { Credentials } from "../store/actions/user";
+import { useAppDispatch } from "../store/hooks";
+import { useServerError } from "../hooks/useServerError";
 
 type LoginFormValues = Credentials;
 

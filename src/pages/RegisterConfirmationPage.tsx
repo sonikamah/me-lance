@@ -1,8 +1,8 @@
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { attemptGetConfirmation } from "../store/thunks/auth";
 import { Error } from "../components";
-import { useAppDispatch } from "src/store/hooks";
-import { useServerError } from "src/hooks/useServerError";
+import { useAppDispatch } from "../store/hooks";
+import { useServerError } from "../hooks/useServerError";
 
 export default function RegisterConfirmationPage() {
   const dispatch = useAppDispatch();

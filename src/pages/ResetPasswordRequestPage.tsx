@@ -2,7 +2,7 @@ import { useState } from "react";
 import * as Yup from "yup";
 import { Error } from "../components";
 import { attemptSendResetPasswordLink } from "../store/thunks/auth";
-import { useServerError } from "src/hooks/useServerError";
+import { useServerError } from "../hooks/useServerError";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";

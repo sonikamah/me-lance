@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { attemptLogout } from "../../store/thunks/auth";
-import { useAppDispatch } from "src/store/hooks";
+import { useAppDispatch } from "../../store/hooks";
 import { useNavigate } from "react-router";
 
 export default function LogoutPage() {

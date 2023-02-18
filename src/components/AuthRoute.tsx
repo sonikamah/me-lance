@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { useAppSelector } from "src/store/hooks";
+import { useAppSelector } from "../store/hooks";
 
 interface AutheRouteProps {
   children: JSX.Element;

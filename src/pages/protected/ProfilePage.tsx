@@ -1,4 +1,4 @@
-import { useAppSelector } from "src/store/hooks";
+import { useAppSelector } from "../../store/hooks";
 
 export default function ProfilePage() {
   const user = useAppSelector((state) => state.user.user);

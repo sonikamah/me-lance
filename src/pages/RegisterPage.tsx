@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
@@ -8,8 +9,8 @@ import {
   attemptResetRegister,
 } from "../store/thunks/auth";
 import { User } from "src/store/actions/user";
-import { useAppDispatch } from "src/store/hooks";
-import { useServerError } from "src/hooks/useServerError";
+import { useAppDispatch } from "../store/hooks";
+import { useServerError } from "../hooks/useServerError";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 

@@ -2,7 +2,7 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { Error } from "../components";
 import { attemptResetPassword } from "../store/thunks/auth";
-import { useServerError } from "src/hooks/useServerError";
+import { useServerError } from "../hooks/useServerError";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 

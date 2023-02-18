@@ -1,5 +1,6 @@
+import React from "react";
 import { NavLink, NavLinkProps } from "react-router-dom";
-import { useAppSelector } from "src/store/hooks";
+import { useAppSelector } from "../store/hooks";
 
 export default function NavBar() {
   const { isAuth, user } = useAppSelector((state) => state.user);

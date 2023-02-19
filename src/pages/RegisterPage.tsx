@@ -11,7 +11,7 @@ import {
 import { User } from "src/store/actions/user";
 import { useAppDispatch } from "../store/hooks";
 import { useServerError } from "../hooks/useServerError";
-import { yupResolver } from "@hookform/resolvers/yup";
+// import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 
 type RegisterFormValues = User;
@@ -28,19 +28,29 @@ export default function RegisterPage() {
 
   const { serverError, handleServerError } = useServerError();
   const [email, setEmail] = useState<string | null>(null);
-  const [registerStep, setRegisterStep] = useState<RegisterFormStep>(RegisterFormStep.Register);
+  const [registerStep, setRegisterStep] = useState<RegisterFormStep>(
+    RegisterFormStep.Register
+  );
 
   const initialValues: RegisterFormValues = {
+    firstName: "",
+    lastName: "",
     email: "",
-    username: "",
-    password: "",
+    gender: "", //"\"gender\" must be one of [male, female, other]"
+    // phone: "",
+    dob: "",
+    isPolicyAccepted: false,
+    // password: "",
   };
 
-  const validationSchema = Yup.object({
-    email: Yup.string().min(5).max(255).email().required("Required"),
-    username: Yup.string().min(3).max(50).required("Required"),
-    password: Yup.string().min(5).max(255).required("Required"),
-  });
+  // const validationSchema = Yup.object({
+  //   email: Yup.string().min(5).max(255).email().required("Required"),
+  //   firstName: Yup.string().min(3).max(50).required("Required"),
+  //   lastName: Yup.string().min(3).max(50).required("Required"),
+  //   gender: Yup.string().min(3).max(50).required("Required"),
+  //   dob: Yup.string().min(3).max(50).required("Required"),
+  //   isPolicyAccepted: Yup.string().min(5).max(255).required("Required"),
+  // });
 
   const {
     register,
@@ -48,8 +58,10 @@ export default function RegisterPage() {
     formState: { errors },
   } = useForm<RegisterFormValues>({
     defaultValues: initialValues,
-    resolver: yupResolver(validationSchema),
+    // resolver: yupResolver(validationSchema),
   });
+  const [isPolicyAccepted, setPolicyAccepted] = useState(true);
+
 
   const onSubmit = (values: RegisterFormValues) => {
     dispatch(attemptRegister(values))
@@ -84,30 +96,67 @@ export default function RegisterPage() {
     switch (registerStep) {
       case RegisterFormStep.Register:
         return (
-          <div className='container'>
-            <form className='form' onSubmit={handleSubmit(onSubmit)}>
-              <div className='field'>
-                <label htmlFor='email'>Email</label>
-                <input {...register("email")} id='email' type='email' placeholder='Email' />
-                {errors.email && <Error>{errors.email.message}</Error>}
-              </div>
-              <div className='field'>
-                <label htmlFor='username'>Username</label>
-                <input {...register("username")} id='username' type='text' placeholder='Username' />
-                {errors.username && <Error>{errors.username.message}</Error>}
-              </div>
-              <div className='field'>
-                <label htmlFor='password'>Password</label>
+          <div className="container">
+            <h3>Register</h3>
+            <form className="form" onSubmit={handleSubmit(onSubmit)}>
+              <div className="field">
+                <label htmlFor="firstName">First Name</label>
                 <input
-                  {...register("password")}
-                  id='password'
-                  type='password'
-                  placeholder='Password'
+                  {...register("firstName")}
+                  id="firstName"
+                  type="text"
+                  placeholder="firstName"
                 />
-                {errors.password && <Error>{errors.password.message}</Error>}
+              </div>
+              <div className="field">
+                <label htmlFor="lastName">lastName</label>
+                <input
+                  {...register("lastName")}
+                  id="password"
+                  type="password"
+                  placeholder="lastName"
+                />
+                {/* {errors.password && <Error>{errors.password.message}</Error>} */}
+              </div>
+              <div className="field">
+                <label htmlFor="email">Email</label>
+                <input
+                  {...register("email")}
+                  id="email"
+                  type="email"
+                  placeholder="Email"
+                />
+              </div>
+              <div className="field">
+                <label htmlFor="gender">Gender</label>
+                <input
+                  {...register("gender")}
+                  id="gender"
+                  type="text"
+                  placeholder="gender"
+                />
               </div>
 
-              <button type='submit'>Signup</button>
+              <div className="field">
+                <label htmlFor="dob">DOB</label>
+                <input
+                  {...register("dob")}
+                  id="gendobder"
+                  type="text"
+                  placeholder="dob"
+                />
+              </div>
+
+              <div className="field">
+                <label htmlFor="isPolicyAccepted">isPolicyAccepted : {isPolicyAccepted ? "Yes" : "No"}</label>
+                <input
+                  {...register("isPolicyAccepted")}
+                  id="gendobder"
+                  type="checkbox"
+                />
+              </div>
+
+              <button type="submit">Signup</button>
               {serverError && <Error>{serverError}</Error>}
             </form>
           </div>
@@ -115,12 +164,12 @@ export default function RegisterPage() {
 
       case RegisterFormStep.Resend:
         return (
-          <div className='container'>
+          <div className="container">
             <p>A verification email has been sent.</p>
             <p>Check you mailbox : {email}.</p>
             <p>
-              You have 12 hours to activate your account. It can take up to 15 min to receive our
-              email.
+              You have 12 hours to activate your account. It can take up to 15
+              min to receive our email.
             </p>
 
             <button onClick={handleResendEmail}>
@@ -132,17 +181,22 @@ export default function RegisterPage() {
 
       case RegisterFormStep.Reset:
         return (
-          <div className='container'>
+          <div className="container">
             <p>Still not received an email? </p>
             <p>Try to register again. You may have given the wrong email. </p>
-            <p>If you want to be able to use the same username, reset the registration :</p>
+            <p>
+              If you want to be able to use the same username, reset the
+              registration :
+            </p>
 
-            <button onClick={handleResetRegister}>Click here to reset the registration</button>
+            <button onClick={handleResetRegister}>
+              Click here to reset the registration
+            </button>
             {serverError && <Error>{serverError}</Error>}
           </div>
         );
       default:
-        return <Navigate to='/home' replace />;
+        return <Navigate to="/home" replace />;
     }
   }
 

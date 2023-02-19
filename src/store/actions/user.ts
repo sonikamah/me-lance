@@ -4,13 +4,18 @@ export const SET_USER = "SET_USER";
 export const RESET_USER = "RESET_USER";
 
 export type User = {
-  username: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  password: string;
+  gender: "male" | "female" | "other" | "";
+  // phone: number;
+  dob: string;
+  isPolicyAccepted: boolean;
+  // password: string;
 };
 
 export type Credentials = {
-  username: string;
+  identifier: string;
   password: string;
 };
 

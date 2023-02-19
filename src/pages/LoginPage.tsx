@@ -8,10 +8,95 @@ import { Error } from "../components";
 import { Credentials } from "../store/actions/user";
 import { useAppDispatch } from "../store/hooks";
 import { useServerError } from "../hooks/useServerError";
+import { CustomButton } from "../components/custom/CustomButton";
+import { CustomTextInput } from "../components/custom/CustomTextInput";
+import { makeStyles } from "@material-ui/core/styles";
 
 type LoginFormValues = Credentials;
 
+const useStyles = makeStyles({
+  container: {
+    // position: "relative",
+    background: "#241332",
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: 38,
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 71,
+  },
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    // color: "#ffffff",
+    // padding: theme.spacing(2),
+    "& .MuiTextField-root": {
+      // margin: theme.spacing(1),
+      width: "500px",
+      height: "50px",
+      // background: '#241332',
+      // color: "#ffffff"
+    },
+    "& .MuiButtonBase-root": {
+      // margin: theme.spacing(2),
+    },
+  },
+  title: {
+    fontSize: 19,
+    paddingBottom: 56,
+  },
+  signUpText: {
+    includeFontPadding: false,
+    fontFamily: "NotoSansKR-Regular",
+    marginTop: 14,
+    fontSize: 13,
+    textAlign: "center",
+    color: "#898888",
+  },
+  socialDescriptionContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  socialDescriptionLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "#E5E5E5",
+  },
+  socialDescriptionText: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    includeFontPadding: false,
+    fontFamily: "NotoSansKR-Regular",
+    color: "#D2D2D2",
+    fontSize: 13,
+  },
+  socialLoginButton: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 45,
+  },
+  socialLogo: {
+    width: 19,
+    height: 19,
+  },
+  socialText: {
+    paddingLeft: 10,
+    includeFontPadding: false,
+    fontFamily: "NotoSansKR-Regular",
+    fontSize: 14,
+  },
+});
+
 export default function LoginPage() {
+  const styles = useStyles();
   const { serverError, handleServerError } = useServerError();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -40,27 +125,46 @@ export default function LoginPage() {
   };
 
   return (
-    <div className='container'>
-      <form className='form' onSubmit={handleSubmit(onSubmit)}>
-        <div className='field'>
-          <label htmlFor='username'>Username</label>
-          <input {...register("username")} id='username' type='text' placeholder='Username' />
+    <div className={styles.container}>
+      <form className="form" onSubmit={handleSubmit(onSubmit)}>
+        <div className="field">
+          <CustomTextInput
+            variant="filled"
+            onChange={() => {}}
+            required={true}
+            text="Username"
+            type="text"
+          />
           {errors.username && <Error>{errors.username.message}</Error>}
         </div>
-        <div className='field'>
-          <label htmlFor='password'>Password</label>
-          <input {...register("password")} id='password' type='password' placeholder='Password' />
+        <div className="field">
+          <CustomTextInput
+            variant="filled"
+            onChange={() => {}}
+            required={true}
+            type="password"
+            text="Password"
+          />
           {errors.password && <Error>{errors.password.message}</Error>}
         </div>
-        <div>
-          <Link to='/login/forgot'>Forgot your password?</Link>
-        </div>
 
-        <button type='submit'>Login</button>
+        <CustomButton
+          text="Login"
+          variant={"contained"}
+          disabled={false}
+          onPress={() => {}}
+        />
         {serverError && <Error>{serverError}</Error>}
       </form>
-      <b>Or</b>
-      <Link to='/register'>Sign Up</Link>
+      {/* <Link to="/register">Sign Up</Link> */}
+      <hr />
+      <CustomButton
+        text="Sign up"
+        variant={"contained"}
+        disabled={false}
+        onPress={() => {}}
+        style={styles.socialLoginButton}
+      />
     </div>
   );
 }

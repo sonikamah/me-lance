@@ -3,6 +3,7 @@ import { Route, Navigate, Routes } from "react-router-dom";
 import { attemptGetUser } from "./store/thunks/user";
 
 import {
+  VerifyPhoneScreen,
   ConfirmPage,
   HomePage,
   ProfilePage,
@@ -12,6 +13,7 @@ import {
   LogoutPage,
   RegisterPage,
   HealthPage,
+  MainScreen,
 } from "./pages";
 import { ProtectedRoute, NavBar } from "./components";
 import { useAppDispatch } from "./store/hooks";
@@ -37,34 +39,20 @@ export default function App() {
     <>
       <NavBar />
       <Routes>
-        <Route path='/healthcheck' element={<HealthPage />} />
-        <Route path='/home' element={<HomePage />} />
+        <Route path="/healthcheck" element={<HealthPage />} />
+        {/* <Route path="/home" element={<HomePage />} /> */}
         <Route
-          path='/account/confirm/:token'
+          path="/account/confirm/:token"
           element={
             <AuthRoute>
               <ConfirmPage />
             </AuthRoute>
           }
         />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route
-          path='/register'
-          element={
-            <AuthRoute>
-              <RegisterPage />
-            </AuthRoute>
-          }
-        />
-        <Route
-          path='/login'
-          element={
-            <AuthRoute>
-              <LoginPage />
-            </AuthRoute>
-          }
-        />
-        <Route
-          path='/login/forgot'
+          path="/login/forgot"
           element={
             <AuthRoute>
               <ResetPasswordRequestPage />
@@ -72,7 +60,7 @@ export default function App() {
           }
         />
         <Route
-          path='/login/reset/:token'
+          path="/login/reset/:token"
           element={
             <AuthRoute>
               <ResetPasswordPage />
@@ -80,7 +68,7 @@ export default function App() {
           }
         />
         <Route
-          path='/logout'
+          path="/logout"
           element={
             <ProtectedRoute>
               <LogoutPage />
@@ -88,15 +76,41 @@ export default function App() {
           }
         />
         <Route
-          path='/my-profile'
+          path="/my-profile"
           element={
             <ProtectedRoute>
               <ProfilePage />
             </ProtectedRoute>
           }
         />
-        <Route path='/' element={<Navigate to='/home' replace />} />
-        <Route element={<Navigate to='/home' replace />} />
+        {/* <Route path="/" element={<Navigate to="/home" replace />} /> */}
+        {/* <Route element={<Navigate to="/home" replace />} /> */}
+        <Route path="/mainScreen" element={<MainScreen />} />
+        <Route
+          path="/verifyEmailScreen"
+          element={
+            <AuthRoute>
+              <HomePage />
+            </AuthRoute>
+          }
+        />
+        <Route
+          path="/addPhoneScreen"
+          element={
+            <AuthRoute>
+              <HomePage />
+            </AuthRoute>
+          }
+        />
+        <Route path="/verifyPhoneScreen" element={<VerifyPhoneScreen />} />
+        <Route
+          path="/setPasswordScreen"
+          element={
+            <AuthRoute>
+              <HomePage />
+            </AuthRoute>
+          }
+        />
       </Routes>
     </>
   );

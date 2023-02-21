@@ -1,20 +1,22 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {connect} from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { attemptLogin } from "../store/thunks/auth";
+import { attemptLogin as attemptLoginAction } from "../store/thunks/auth";
 import { Error } from "../components";
 import { Credentials } from "../store/actions/user";
-import { useAppDispatch } from "../store/hooks";
 import { useServerError } from "../hooks/useServerError";
 
 type LoginFormValues = Credentials;
 
-export default function LoginPage() {
+export const LoginPage = ({
+  attemptLogin
+}) => {
   const { serverError, handleServerError } = useServerError();
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(false);
 
   const initialValues: LoginFormValues = {
     identifier: "",
@@ -35,32 +37,54 @@ export default function LoginPage() {
     resolver: yupResolver(validationSchema),
   });
 
-  const onSubmit = (values: LoginFormValues) => {
-    dispatch(attemptLogin(values, navigate)).catch(handleServerError);
+  const loginWithLocal = async (values: LoginFormValues) => {
+    attemptLogin(values, navigate)
   };
 
   return (
-    <div className='container'>
-      <form className='form' onSubmit={handleSubmit(onSubmit)}>
-        <div className='field'>
-          <label htmlFor='identifier'>Username</label>
-          <input {...register("identifier")} id='identifier' type='text' placeholder='Username' />
+    <div className="container">
+      <form className="form" onSubmit={handleSubmit(loginWithLocal)}>
+        <div className="field">
+          <label htmlFor="identifier">Username</label>
+          <input
+            {...register("identifier")}
+            id="identifier"
+            type="text"
+            placeholder="Username"
+          />
           {errors.identifier && <Error>{errors.identifier.message}</Error>}
         </div>
-        <div className='field'>
-          <label htmlFor='password'>Password</label>
-          <input {...register("password")} id='password' type='password' placeholder='Password' />
+        <div className="field">
+          <label htmlFor="password">Password</label>
+          <input
+            {...register("password")}
+            id="password"
+            type="password"
+            placeholder="Password"
+          />
           {errors.password && <Error>{errors.password.message}</Error>}
         </div>
         <div>
-          <Link to='/login/forgot'>Forgot your password?</Link>
+          <Link to="/login/forgot">Forgot your password?</Link>
         </div>
 
-        <button type='submit'>Login</button>
+        <button type="submit">Login</button>
         {serverError && <Error>{serverError}</Error>}
       </form>
       <b>Or</b>
-      <Link to='/register'>Sign Up</Link>
+      <Link to="/register">Sign Up</Link>
     </div>
   );
 }
+
+// const mapStateToProps = state => ({
+//   isAuth: state.user.isAuth
+// });
+
+const mapDispatchToProps = {
+  attemptLogin: attemptLoginAction
+};
+
+export default connect(null, mapDispatchToProps)(LoginPage);
+
+

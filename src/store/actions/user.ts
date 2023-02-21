@@ -1,4 +1,6 @@
-export const LOGIN_USER = "LOGIN_USER";
+export const LOGIN_USER_REQUESTED = "LOGIN_USER_REQUESTED";
+export const LOGIN_USER_SUCCESSFUL = "LOGIN_USER_SUCCESSFUL";
+export const LOGIN_USER_FAILURE = "LOGIN_USER_FAILURE";
 export const LOGOUT_USER = "LOGOUT_USER";
 export const SET_USER = "SET_USER";
 export const RESET_USER = "RESET_USER";
@@ -24,10 +26,23 @@ export type UserAction<T> = {
   payload?: T;
 };
 
-export function login(credentials: Credentials): UserAction<Credentials> {
+export function loginRequest(): any{
   return {
-    type: LOGIN_USER,
-    payload: credentials,
+    type: LOGIN_USER_REQUESTED
+  };
+}
+
+export function loginSuccess(data: any): any {
+  return {
+    type: LOGIN_USER_SUCCESSFUL,
+    payload: data,
+  };
+}
+
+export function loginFailure(errors: any): any {
+  return {
+    type: LOGIN_USER_FAILURE,
+    errors
   };
 }
 
